@@ -1,30 +1,17 @@
-// Mouse look. The engine pulls horizontal motion through takeMouseX() once per tic (I_ReadMouse in
-// engine/src/i_input.c) instead of using SDL's, which SDL scales by the canvas' on-screen size.
+// Mouse look, fed to the engine through controls.js instead of SDL (which scales motion by the canvas' on-screen size).
 //  - Pointer lock (full page, or wherever the browser grants it): raw 1:1 motion, like any PC shooter.
 //  - No pointer lock (X's iframe refuses it): drag with the left button held, which also fires.
+import { addTurn, resetTurn } from "./controls.js";
 
 const DRAG_SPEED = 4; // a drag across a ~550px card turns about 100°
-
-let pendingX = 0;
-
-// Touch look (touch.js) feeds the same accumulator, in engine turn units.
-export function addTurn(dx) {
-    pendingX += dx;
-}
-
-export function takeMouseX() {
-    const whole = Math.trunc(pendingX);
-    pendingX -= whole;
-    return whole;
-}
 
 export function setupMouse() {
     window.addEventListener(
         "mousemove",
         (event) => {
-            event.stopImmediatePropagation(); // SDL never sees motion, the engine reads takeMouseX()
-            if (document.pointerLockElement) pendingX += event.movementX;
-            else if (event.buttons & 1) pendingX += event.movementX * DRAG_SPEED;
+            event.stopImmediatePropagation(); // SDL never sees motion
+            if (document.pointerLockElement) addTurn(event.movementX);
+            else if (event.buttons & 1) addTurn(event.movementX * DRAG_SPEED);
         },
         true
     );
@@ -39,5 +26,5 @@ export function setupMouse() {
     );
 
     // Motion left over when focus is lost would otherwise jerk the view on return.
-    window.addEventListener("blur", () => (pendingX = 0));
+    window.addEventListener("blur", resetTurn);
 }

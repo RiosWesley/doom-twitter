@@ -1,11 +1,10 @@
-// Floating thumbstick: wherever the thumb lands in `zone` becomes the centre, and the direction it is pushed picks
-// one of eight sectors. Doom's keyboard movement is digital anyway, so the output is a list of held directions.
+// Floating analog thumbstick: wherever the thumb lands in `zone` becomes the centre, and the offset from it is
+// reported as x/y in -1..1 (y grows downwards), zero inside a small deadzone and full at RADIUS.
 
-const DEADZONE = 12; // px of travel before anything is held
-const RADIUS = 40; // px the knob can travel visually
-const SECTORS = [["right"], ["down", "right"], ["down"], ["down", "left"], ["left"], ["up", "left"], ["up"], ["up", "right"]];
+const DEADZONE = 8; // px of travel ignored, so resting a thumb doesn't move
+const RADIUS = 48; // px of travel for full deflection, also how far the knob moves
 
-export function setupJoystick(zone, base, knob, onDirections) {
+export function setupJoystick(zone, base, knob, onChange) {
     let pointer = null;
     let originX = 0;
     let originY = 0;
@@ -16,8 +15,9 @@ export function setupJoystick(zone, base, knob, onDirections) {
         const length = Math.hypot(dx, dy);
         const clamp = length > RADIUS ? RADIUS / length : 1;
         knob.style.transform = `translate(${dx * clamp}px, ${dy * clamp}px)`;
-        if (length < DEADZONE) return onDirections([]);
-        onDirections(SECTORS[(Math.round(Math.atan2(dy, dx) / (Math.PI / 4)) + 8) % 8]); // y grows downwards
+        if (length < DEADZONE) return onChange(0, 0);
+        const amount = Math.min(1, (length - DEADZONE) / (RADIUS - DEADZONE));
+        onChange((dx / length) * amount, (dy / length) * amount);
     };
 
     zone.addEventListener("pointerdown", (event) => {
@@ -41,7 +41,7 @@ export function setupJoystick(zone, base, knob, onDirections) {
             pointer = null;
             base.classList.remove("active");
             base.style.left = base.style.top = knob.style.transform = "";
-            onDirections([]);
+            onChange(0, 0);
         });
     }
 }

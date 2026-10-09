@@ -1,13 +1,12 @@
 import { press } from "./input.js";
-import { addTurn } from "./mouse.js";
+import { addTurn, stick } from "./controls.js";
 import { setupJoystick } from "./joystick.js";
 
 // Phone controls, shown by CSS on coarse pointers:
-//  - left half: floating joystick to walk and strafe
-//  - right half: drag to turn, like mouse look
+//  - left half: analog joystick, up/down walks, left/right turns (like the arrow keys, but with speed)
+//  - right half: drag to turn, for finer aim
 //  - FIRE (dragging on it turns too, to aim while shooting), USE and next weapon
 
-const MOVE_KEYS = { up: "ArrowUp", down: "ArrowDown", left: "KeyA", right: "KeyD" }; // A/D strafe in default.cfg
 const TURN_SPEED = 10; // engine turn units per px dragged: a swipe across half a phone card turns about 80°
 
 export const TOUCH_MARKUP = `
@@ -22,11 +21,9 @@ export const TOUCH_MARKUP = `
     </div>`;
 
 export function setupTouch(root) {
-    const held = new Set();
-    setupJoystick(root.querySelector(".move-zone"), root.querySelector(".stick"), root.querySelector(".knob"), (directions) => {
-        const wanted = new Set(directions.map((direction) => MOVE_KEYS[direction]));
-        for (const key of held) if (!wanted.has(key)) press(key, false), held.delete(key);
-        for (const key of wanted) if (!held.has(key)) press(key, true), held.add(key);
+    setupJoystick(root.querySelector(".move-zone"), root.querySelector(".stick"), root.querySelector(".knob"), (x, y) => {
+        stick.x = x * Math.abs(x); // squared: gentle steering near the centre, full speed at the edge
+        stick.y = y;
     });
 
     dragToTurn(root.querySelector(".look-zone"));

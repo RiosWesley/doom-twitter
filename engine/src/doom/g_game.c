@@ -15,6 +15,7 @@
 // DESCRIPTION:  none
 //
 
+#include <emscripten.h>
 #include <emscripten/websocket.h>
 #include <math.h>
 #include <stdlib.h>
@@ -370,6 +371,11 @@ void G_BuildTiccmd(ticcmd_t *cmd, int maketic)
         joystrafemove > 0) {
         side += sidemove[speed];
     }
+
+    // doom-twitter: analog thumbstick from the phone controls (site/js/controls.js), each axis -1..1.
+    // Keys are all-or-nothing; this lets a small push walk slowly and steer gently.
+    forward -= (int)(EM_ASM_DOUBLE({ return Module.stick ? Module.stick.y : 0; }) * forwardmove[1]);
+    cmd->angleturn -= (short)(EM_ASM_DOUBLE({ return Module.stick ? Module.stick.x : 0; }) * angleturn[1]);
 
     // fullscreen
     if (gamekeydown[key_fullscreen]) {

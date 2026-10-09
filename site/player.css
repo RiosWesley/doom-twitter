@@ -55,17 +55,6 @@
     background: #b11;
 }
 
-.doom .full {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    padding: 2px 6px;
-    background: rgb(0 0 0 / 0.5);
-    color: #bbb;
-    font-size: 11px;
-    text-decoration: none;
-}
-
 /* Touch controls: phones only. Two zones split the screen; buttons sit on top of the right one. */
 .doom .touch {
     display: none;
