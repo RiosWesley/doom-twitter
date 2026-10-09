@@ -1,0 +1,126 @@
+.doom {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font: 600 14px/1.2 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 0.12em;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+}
+.doom [hidden] {
+    display: none !important;
+}
+
+.doom .screen {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* SDL keeps a 640x480 buffer; letterbox it instead of stretching on portrait screens */
+    outline: none;
+}
+
+.doom .cover,
+.doom .paused {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 0 9%;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+}
+.doom .cover {
+    background: #000 url(/poster.png) center / contain no-repeat;
+}
+.doom .paused {
+    align-items: center;
+    padding: 0;
+    background: rgb(0 0 0 / 0.55);
+}
+.doom .label {
+    padding: 0.5em 0.9em;
+    border: 2px solid #b11;
+    background: rgb(0 0 0 / 0.8);
+}
+.doom .cover:hover .label,
+.doom .cover:focus-visible .label {
+    background: #b11;
+}
+
+.doom .full {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    padding: 2px 6px;
+    background: rgb(0 0 0 / 0.5);
+    color: #bbb;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+/* Touch controls: phones only. */
+.doom .touch {
+    display: none;
+}
+@media (pointer: coarse) {
+    .doom .touch {
+        display: block;
+    }
+}
+.doom .touch button {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgb(255 255 255 / 0.35);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.15);
+    color: #fff;
+    font: inherit;
+    font-size: 11px;
+    letter-spacing: 0;
+    touch-action: none;
+}
+.doom .dpad {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: grid;
+    grid-template: repeat(3, 44px) / repeat(3, 44px);
+}
+.doom .dpad [data-key="ArrowUp"] {
+    grid-area: 1 / 2;
+}
+.doom .dpad [data-key="ArrowLeft"] {
+    grid-area: 2 / 1;
+}
+.doom .dpad [data-key="ArrowRight"] {
+    grid-area: 2 / 3;
+}
+.doom .dpad [data-key="ArrowDown"] {
+    grid-area: 3 / 2;
+}
+.doom .actions {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+.doom .actions button {
+    width: 64px;
+    height: 64px;
+}
+.doom .actions [data-key="ControlLeft"] {
+    width: 76px;
+    height: 76px;
+    border-color: #b11;
+    background: rgb(187 17 17 / 0.35);
+}

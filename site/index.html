@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>DOOM in a tweet</title>
+        <meta name="description" content="The original 1993 DOOM, playable right inside a post on X." />
+
+        <!-- X player card: X loads twitter:player in an iframe inside the post. __SITE_URL__ is filled in by build.sh. -->
+        <meta name="twitter:card" content="player" />
+        <meta name="twitter:title" content="DOOM, playable inside this tweet" />
+        <meta name="twitter:description" content="The 1993 shareware episode, running in your timeline. Click to play." />
+        <meta name="twitter:image" content="__SITE_URL__/poster.png" />
+        <meta name="twitter:image:alt" content="DOOM title screen" />
+        <meta name="twitter:player" content="__SITE_URL__/embed/" />
+        <meta name="twitter:player:width" content="640" />
+        <meta name="twitter:player:height" content="480" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="__SITE_URL__/" />
+        <meta property="og:title" content="DOOM in a tweet" />
+        <meta property="og:description" content="The original 1993 DOOM, playable right inside a post on X." />
+        <meta property="og:image" content="__SITE_URL__/poster.png" />
+
+        <link rel="stylesheet" href="/player.css" />
+        <style>
+            html,
+            body {
+                margin: 0;
+                height: 100%;
+                background: #000;
+                color: #888;
+                font: 12px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+            }
+            body {
+                display: grid;
+                grid-template-rows: 1fr auto;
+            }
+            footer {
+                padding: 8px 16px;
+            }
+            footer a {
+                color: #bbb;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="doom" class="doom"></div>
+        <footer>
+            Arrows/WASD move · Ctrl/click fire · Space/E use · Shift run · Alt strafe · 1–7 weapons · Esc menu.
+            DOOM shareware © 1993 id Software, distributed unmodified. Engine:
+            <a href="https://www.chocolate-doom.org/">Chocolate Doom</a> via
+            <a href="https://github.com/cloudflare/doom-wasm">Cloudflare's doom-wasm</a>, GNU GPL v2
+            (<a href="__SOURCE_URL__">source</a>). Not affiliated with id Software or X.
+        </footer>
+        <script type="module" src="/js/main.js"></script>
+    </body>
+</html>

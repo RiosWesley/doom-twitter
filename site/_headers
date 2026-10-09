@@ -1,0 +1,2 @@
+/embed/*
+  Content-Security-Policy: frame-ancestors 'self' https://x.com https://*.x.com https://twitter.com https://*.twitter.com
