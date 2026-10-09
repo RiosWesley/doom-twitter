@@ -33,8 +33,12 @@ After changing `configure.ac` or a header, delete `engine/Makefile` to force a f
 
 ```sh
 npx wrangler login
-npx wrangler pages deploy dist --project-name your-project
+npx wrangler pages project create your-project --production-branch main --force  # once
+npx wrangler pages deploy dist --project-name your-project --branch main
 ```
+
+Wrangler 4.149+ quietly turns `pages project create` into a Workers deploy unless you pass `--force`. A Worker can't
+take a custom subdomain whose DNS lives outside Cloudflare; a Pages project can (CNAME to `your-project.pages.dev`).
 
 ## Posting
 
