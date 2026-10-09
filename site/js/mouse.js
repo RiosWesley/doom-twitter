@@ -7,6 +7,11 @@ const DRAG_SPEED = 4; // a drag across a ~550px card turns about 100°
 
 let pendingX = 0;
 
+// Touch look (touch.js) feeds the same accumulator, in engine turn units.
+export function addTurn(dx) {
+    pendingX += dx;
+}
+
 export function takeMouseX() {
     const whole = Math.trunc(pendingX);
     pendingX -= whole;

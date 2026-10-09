@@ -12,10 +12,10 @@ const root = document.getElementById("doom");
 const fullUrl = root.dataset.fullUrl;
 root.innerHTML = `
     <canvas id="canvas" class="screen" tabindex="0" oncontextmenu="return false"></canvas>
+    ${TOUCH_MARKUP}
     <button class="cover" type="button"><span class="label">CLICK TO PLAY</span></button>
     <button class="paused" type="button" hidden><span class="label">PAUSED · CLICK TO RESUME</span></button>
-    ${fullUrl ? `<a class="full" href="${fullUrl}" target="_blank" rel="noopener">open full screen ↗</a>` : ""}
-    ${TOUCH_MARKUP}`;
+    ${fullUrl ? `<a class="full" href="${fullUrl}" target="_blank" rel="noopener">open full screen ↗</a>` : ""}`;
 
 const canvas = root.querySelector("#canvas"); // SDL looks the canvas up by this exact id
 const cover = root.querySelector(".cover");

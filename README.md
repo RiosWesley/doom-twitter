@@ -11,7 +11,7 @@ X turns a link whose page has `twitter:card=player` meta tags into a card that l
 | `wad/doom1.wad` | Official shareware IWAD v1.9, unmodified (SHA-1 checked by `build.sh`) |
 | `site/index.html` | The link you post: card meta tags, plus the game full page |
 | `site/embed/` | The iframe X loads inside the post. `_headers` lets only x.com/twitter.com frame it |
-| `site/js/` | Player shell: `main` (click to play), `loader`, `engine` (boot), `input`, `touch`, `focus` (pause when unfocused) |
+| `site/js/` | Player shell: `main` (click to play), `loader`, `engine` (boot), `input` (keyboard), `mouse` (look), `touch` + `joystick` (phone controls), `focus` (pause when unfocused) |
 | `site/*.cfg` | Controls and video settings (`default.cfg` vanilla keys, `extra.cfg` Chocolate Doom options) |
 | `scripts/make_poster.py` | Renders `site/poster.png` (the card image) from the WAD's title screen |
 

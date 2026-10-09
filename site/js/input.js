@@ -1,7 +1,7 @@
 // Keyboard glue between the browser (often inside X's iframe) and SDL. Mouse look lives in mouse.js.
 
 // SDL still reads the deprecated keyCode, so synthetic events need it.
-const KEY_CODES = { ArrowUp: 38, ArrowDown: 40, ArrowLeft: 37, ArrowRight: 39, Space: 32, ControlLeft: 17 };
+const KEY_CODES = { ArrowUp: 38, ArrowDown: 40, ArrowLeft: 37, ArrowRight: 39, Space: 32, ControlLeft: 17, KeyA: 65, KeyD: 68, BracketRight: 221 };
 
 // default.cfg binds one key per action (classic layout); these add the modern ones on top.
 const ALIASES = { KeyW: "ArrowUp", KeyS: "ArrowDown", KeyE: "Space" };

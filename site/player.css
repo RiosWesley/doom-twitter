@@ -66,18 +66,72 @@
     text-decoration: none;
 }
 
-/* Touch controls: phones only. */
+/* Touch controls: phones only. Two zones split the screen; buttons sit on top of the right one. */
 .doom .touch {
     display: none;
+    position: absolute;
+    inset: 0;
 }
 @media (pointer: coarse) {
     .doom .touch {
         display: block;
     }
 }
-.doom .touch button {
+.doom .move-zone,
+.doom .look-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    touch-action: none;
+}
+.doom .move-zone {
+    left: 0;
+}
+.doom .look-zone {
+    right: 0;
+}
+
+/* Joystick base rests bottom-left and jumps to wherever the thumb lands (joystick.js sets left/top). */
+.doom .stick {
+    position: absolute;
+    left: 64px;
+    top: calc(100% - 64px);
+    width: 96px;
+    height: 96px;
+    margin: -48px 0 0 -48px;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.08);
+    pointer-events: none;
+}
+.doom .stick.active {
+    background: rgb(255 255 255 / 0.15);
+}
+.doom .knob {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     width: 44px;
     height: 44px;
+    margin: -22px 0 0 -22px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.35);
+}
+
+.doom .actions {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 8px;
+    align-items: end;
+    justify-items: center;
+}
+.doom .actions button {
+    width: 52px;
+    height: 52px;
     border: 1px solid rgb(255 255 255 / 0.35);
     border-radius: 50%;
     background: rgb(255 255 255 / 0.15);
@@ -87,40 +141,19 @@
     letter-spacing: 0;
     touch-action: none;
 }
-.doom .dpad {
-    position: absolute;
-    left: 12px;
-    bottom: 12px;
-    display: grid;
-    grid-template: repeat(3, 44px) / repeat(3, 44px);
-}
-.doom .dpad [data-key="ArrowUp"] {
+.doom .actions .weapon {
     grid-area: 1 / 2;
+    width: 40px;
+    height: 40px;
+    font-size: 9px;
 }
-.doom .dpad [data-key="ArrowLeft"] {
+.doom .actions .use {
     grid-area: 2 / 1;
 }
-.doom .dpad [data-key="ArrowRight"] {
-    grid-area: 2 / 3;
-}
-.doom .dpad [data-key="ArrowDown"] {
-    grid-area: 3 / 2;
-}
-.doom .actions {
-    position: absolute;
-    right: 12px;
-    bottom: 12px;
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-}
-.doom .actions button {
-    width: 64px;
-    height: 64px;
-}
-.doom .actions [data-key="ControlLeft"] {
-    width: 76px;
-    height: 76px;
+.doom .actions .fire {
+    grid-area: 2 / 2;
+    width: 72px;
+    height: 72px;
     border-color: #b11;
     background: rgb(187 17 17 / 0.35);
 }
