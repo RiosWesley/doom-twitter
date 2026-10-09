@@ -9,6 +9,14 @@ import { setupJoystick } from "./joystick.js";
 
 const TURN_SPEED = 10; // engine turn units per px dragged: a swipe across half a phone card turns about 80°
 
+export const IS_TOUCH = matchMedia("(pointer: coarse)").matches; // same test as the CSS that shows the controls
+
+// Chrome on Android grants SDL's pointer-lock grab on the first tap, and from then on every touch goes to the
+// canvas, freezing these controls. Phones never need the grab, so turn it off (later lines in a .cfg win).
+export function withoutMouseGrab(extraCfg) {
+    return new TextEncoder().encode(new TextDecoder().decode(extraCfg) + "grabmouse 0\n");
+}
+
 export const TOUCH_MARKUP = `
     <div class="touch">
         <div class="move-zone"><div class="stick"><div class="knob"></div></div></div>

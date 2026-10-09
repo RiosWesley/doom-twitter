@@ -4,7 +4,7 @@ import { startDoom } from "./engine.js";
 import { setupInput } from "./input.js";
 import { setupMouse } from "./mouse.js";
 import { setupFocus } from "./focus.js";
-import { TOUCH_MARKUP, setupTouch } from "./touch.js";
+import { IS_TOUCH, TOUCH_MARKUP, setupTouch, withoutMouseGrab } from "./touch.js";
 
 const FILES = ["doom1.wad", "default.cfg", "extra.cfg"];
 
@@ -29,13 +29,15 @@ async function play() {
         const [wasm, ...data] = await fetchAll(["/websockets-doom.wasm", ...FILES.map((f) => "/" + f)], (bytes) => {
             label.textContent = `LOADING ${(bytes / 1e6).toFixed(1)} MB`;
         });
+        const files = Object.fromEntries(FILES.map((name, i) => [name, data[i]]));
+        if (IS_TOUCH) files["extra.cfg"] = withoutMouseGrab(files["extra.cfg"]);
         setupInput();
         setupMouse();
         setupTouch(root);
         startDoom({
             canvas,
             wasm,
-            files: Object.fromEntries(FILES.map((name, i) => [name, data[i]])),
+            files,
             audioContext,
             onStart: () => {
                 cover.hidden = true;
