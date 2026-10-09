@@ -1,4 +1,4 @@
-// Keyboard and mouse glue between the browser (often inside X's iframe) and SDL.
+// Keyboard glue between the browser (often inside X's iframe) and SDL. Mouse look lives in mouse.js.
 
 // SDL still reads the deprecated keyCode, so synthetic events need it.
 const KEY_CODES = { ArrowUp: 38, ArrowDown: 40, ArrowLeft: 37, ArrowRight: 39, Space: 32, ControlLeft: 17 };
@@ -29,13 +29,4 @@ export function setupInput() {
             true
         );
     }
-
-    // Pointer lock is often refused inside X's iframe; unlocked mouse motion would just spin the player around.
-    window.addEventListener(
-        "mousemove",
-        (event) => {
-            if (!document.pointerLockElement) event.stopImmediatePropagation();
-        },
-        true
-    );
 }

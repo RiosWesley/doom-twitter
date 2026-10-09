@@ -20,6 +20,10 @@
 #include "SDL.h"
 #include "SDL_keycode.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include "doomkeys.h"
 #include "doomtype.h"
 #include "d_event.h"
@@ -435,7 +439,14 @@ void I_ReadMouse(void)
     int x, y;
     event_t ev;
 
+#ifdef __EMSCRIPTEN__
+    // doom-twitter: SDL scales pointer-lock motion by 640 / the canvas' on-screen width, so turning speed changed
+    // with the window size. The page accumulates raw movementX itself (site/js/input.js); take the whole pixels.
+    x = EM_ASM_INT({ return Module.takeMouseX ? Module.takeMouseX() : 0; });
+    y = 0; // novert: vertical motion never moves the player
+#else
     SDL_GetRelativeMouseState(&x, &y);
+#endif
 
     if (x != 0 || y != 0) 
     {

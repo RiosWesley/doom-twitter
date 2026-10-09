@@ -2,6 +2,7 @@
 import { fetchAll } from "./loader.js";
 import { startDoom } from "./engine.js";
 import { setupInput } from "./input.js";
+import { setupMouse } from "./mouse.js";
 import { setupFocus } from "./focus.js";
 import { TOUCH_MARKUP, setupTouch } from "./touch.js";
 
@@ -31,6 +32,7 @@ async function play() {
             label.textContent = `LOADING ${(bytes / 1e6).toFixed(1)} MB`;
         });
         setupInput();
+        setupMouse();
         setupTouch(root);
         startDoom({
             canvas,
